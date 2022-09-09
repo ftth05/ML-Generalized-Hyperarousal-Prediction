@@ -526,10 +526,18 @@ generate_all_signal_ecdf_arousal_plots <- function(windows_size=10, only_test_su
     
     # View(dat)
     
+    # new_arousals <- list("relaxed" = "non-arousal",
+    #                      "neutral" = "neutral",
+    #                      "stressed" = "arousal")
+    
     dat <- dat %>%
       dplyr::rename(drive = Treatment,
                     subject = Subject,
                     arousal = paste0(toupper(signal), "_", arousal_col_name)) %>%
+      dplyr::mutate(arousal = case_when(arousal == 'relaxed' ~ 'non-arousal',
+                                        arousal == 'stressed' ~ 'arousal',
+                                        TRUE ~ 'neutral')) %>% 
+      # dplyr::mutate(arousal = new_arousals[old_arousal]) %>% 
       filter(drive %in% c('CD', 'MD', 'ED')) %>% 
       # filter(drive %in% c(2, 3, 4)) %>%
       select(subject, drive, arousal) %>%
@@ -613,10 +621,23 @@ generate_all_signal_ecdf_arousal_plots <- function(windows_size=10, only_test_su
           axis.text.y = element_text(size = 20)
         ) +
         
-        scale_color_manual(values = c("relaxed" = "green",
-                                      "neutral" = "grey",
-                                      "stressed" = "red"))
+        # scale_color_manual(values = c("relaxed" = "green",
+        #                               "neutral" = "grey",
+        #                               "stressed" = "red"))
       
+        scale_color_manual(values = c("non-arousal" = "green",
+                                      "neutral" = "grey",
+                                      "arousal" = "red"))
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      ##############################################################################      
       # scale_color_manual(values = c("relaxed" = "green",
       #                               "normal" = "gray81",
       #                               "unknown" = "white",
@@ -634,7 +655,7 @@ generate_all_signal_ecdf_arousal_plots <- function(windows_size=10, only_test_su
       #                                   "normal" = "gray81",
       #                                   "stressed" = "red"))
       # }
-      
+      ##############################################################################
       
       if (d=="Sensorimotor") {
         plot <- plot + ylab(paste0("Time [", windows_size, " s]"))
