@@ -6,7 +6,7 @@ This repository contains the Python Jupyter Notebooks and R scripts to ensure qu
 ## Getting Started
 
 #### Prerequisites
-- Jupyter [Follow the link](https://jupyter.org/install).
+- Jupyter [[Follow the link](https://jupyter.org/install)]
     - Required packages for Python
 - R and RStudio
     - Required packages for R
