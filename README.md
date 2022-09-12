@@ -6,7 +6,7 @@ This repository contains the Python Jupyter Notebooks and R scripts to ensure qu
 ## Getting Started
 
 #### Prerequisites
-- Jupyter
+- Jupyter [Follow the link] (https://jupyter.org/install)
     - Required packages for Python
 - R and RStudio
     - Required packages for R
@@ -15,5 +15,5 @@ This repository contains the Python Jupyter Notebooks and R scripts to ensure qu
 Packages are available on CRAN and can be installed using a simple call to `install.packages()`:
 
     install.packages('PackageName') 
-<!-- 
--->
+
+<!-- -->
