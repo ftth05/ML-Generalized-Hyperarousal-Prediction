@@ -13,7 +13,7 @@ This repository contains the Python Jupyter Notebooks and R scripts to ensure qu
 
 
 #### Installing Python Packages
-- Packages are available on Python Package Index (PyPI) and can be installed using [pip](https://pip.pypa.io/en/stable/), [conda](https://docs.conda.io/en/latest/) etc. 
+- Packages are available on [Python Package Index (PyPI)](https://pypi.org/) and can be installed using [pip](https://pip.pypa.io/en/stable/), [conda](https://docs.conda.io/en/latest/) etc. 
 - Please follow the step by step [guideline doc](https://packaging.python.org/en/latest/tutorials/installing-packages/)
 
 #### Installing R Packages
