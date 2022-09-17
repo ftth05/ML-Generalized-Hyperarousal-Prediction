@@ -396,7 +396,9 @@
   #------  Main Program  ------#
   #----------------------------#
   # c('ml_classification.csv', 'ml_classification_deadline.csv', 'lstm_15_5_v3.csv', 'lstm_30_5_v3.csv', 'lstm_60_5_v3.csv')
-  for (file in c('ml_classification_deadline.csv')) {
+  # knn_classification.csv
+  # linear_svc_classification.csv
+  for (file in c('knn_classification.csv', 'linear_svc_classification.csv')) {
     tryCatch({
       file_name <<- file
       read_data()

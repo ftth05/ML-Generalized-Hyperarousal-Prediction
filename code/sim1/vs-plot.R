@@ -534,9 +534,10 @@ generate_all_signal_ecdf_arousal_plots <- function(windows_size=10, only_test_su
       dplyr::rename(drive = Treatment,
                     subject = Subject,
                     arousal = paste0(toupper(signal), "_", arousal_col_name)) %>%
-      dplyr::mutate(arousal = case_when(arousal == 'relaxed' ~ 'non-arousal',
-                                        arousal == 'stressed' ~ 'arousal',
-                                        TRUE ~ 'neutral')) %>% 
+    #   dplyr::mutate(arousal = case_when(arousal == 'relaxed' ~ 'non-arousal',
+    #                                     arousal == 'stressed' ~ 'arousal',
+    #                                     TRUE ~ 'neutral')) %>% 
+    
       # dplyr::mutate(arousal = new_arousals[old_arousal]) %>% 
       filter(drive %in% c('CD', 'MD', 'ED')) %>% 
       # filter(drive %in% c(2, 3, 4)) %>%
