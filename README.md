@@ -7,9 +7,9 @@ This repository contains the Python Jupyter Notebooks and R scripts to ensure qu
 
 #### Prerequisites
 - Python and [Jupyter](https://jupyter.org/install)
-    - Required packages for Python 
+    - Required packages for Python (e.g. pandas, numpy, statistics, matplotlib, seaborn, sklearn etc.)
 - R and RStudio
-    - Required packages for R
+    - Required packages for R (e.g. dplyr, ggplot2, cowplot, data.table, reshape2 etc.)
 
 
 #### Installing Python Packages
