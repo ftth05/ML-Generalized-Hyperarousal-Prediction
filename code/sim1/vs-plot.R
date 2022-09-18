@@ -751,7 +751,8 @@ generate_all_signal_ecdf_arousal_plots <- function(windows_size=10, only_test_su
   #        height=20,
   # )
   plot_name <- paste0("sim1_combined_ecdf_arousal_", windows_size, "_sec_window", test_subjs, threshold)
-  save_plot(plot_name, grid_ecdf_plot, 21, 20)
+  # save_plot(plot_name, grid_ecdf_plot, 21, 20)
+  save_plot(plot_name, grid_ecdf_plot, 25, 30)
   
 }
 

@@ -55,13 +55,8 @@
   
   
   
-  # metrics_ml_hist_v2.csv  --> Hist
-  # metrics_ml_ecdf_v4.csv  --> Empirical
-  # metrics_ml_ecdf_deadline_v5.csv --> Empirical Deadline
-  # file_name <- 'metrics_ml_hist_v2.csv'
-  
-  # ml_30_5.csv
-  file_name <- 'lstm_30_5.csv'
+  plot_width <<- 16
+  plot_height <<- 12
   
   
   #-------------------------#
@@ -226,7 +221,7 @@
       theme(text = element_text(size=20),
             panel.background = element_blank(),
             panel.grid = element_blank(),
-            plot.margin = unit(c(1.2, 1.2, 1.2, 1.2), "lines"),
+            plot.margin = unit(c(1.5, 1.2, 3, 1.2), "lines"),
             plot.title = element_text(hjust = 0.5, size=18, margin=margin(0,0,-15,0))) +
       labs(fill="") +
       scale_x_discrete(position = "top") +
@@ -243,7 +238,14 @@
     # signals <<- c('PP')
     
     
+    plot_width <<- 16
+    plot_height <<- 13
+    
+    
     if (i==1) {
+      plot_width <<- 14
+      plot_height <<- 12
+      
       train_studies <<- c('sim1', 'sim2', 'tt1', 'office_tasks', 'deadline_study')
       train_study_levels <<- c(deadline_study, office_tasks, 'TT1', 'SIM2', 'SIM1')
       test_study_levels <<- c('SIM1', 'SIM2', 'TT1', office_tasks, deadline_study)
@@ -374,10 +376,13 @@
       
       #---- SAVING GRID PLOT ----#
       # save_plot(paste0(get_model_name(), '_', tolower(metric), '_', plot_name), grid_plot, width=16, height=12)
-      save_plot(paste0(str_sub(file_name, 1, -5), '_', tolower(metric), '_', plot_name), grid_plot, width=16, height=12)
       # save_plot(paste0(str_sub(file_name, 1, -5), '_', tolower(metric), '_', paste(train_studies, collapse = '_')), grid_plot, width=16, height=12)
       # save_plot(paste0(get_model_name(), '_', tolower(metric), '_2d_plot'), grid_plot, width=16, height=12)
       
+      save_plot(paste0(str_sub(file_name, 1, -5), '_', tolower(metric), '_', plot_name), 
+                grid_plot, 
+                width=plot_width, 
+                height=plot_height)
     }
   }
   
@@ -390,15 +395,11 @@
   
   
   
-  
-  
   #----------------------------#
   #------  Main Program  ------#
   #----------------------------#
-  # c('ml_classification.csv', 'ml_classification_deadline.csv', 'lstm_15_5_v3.csv', 'lstm_30_5_v3.csv', 'lstm_60_5_v3.csv')
-  # knn_classification.csv
-  # linear_svc_classification.csv
-  for (file in c('knn_classification.csv', 'linear_svc_classification.csv')) {
+  # c('rf_classification.csv', 'rf_classification_deadline.csv', 'knn_classification.csv', 'linear_svc_classification.csv')
+  for (file in c('rf_classification.csv', 'rf_classification_deadline.csv')) {
     tryCatch({
       file_name <<- file
       read_data()
