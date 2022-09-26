@@ -193,12 +193,41 @@
   # }
   # 
   
+  get_coocur <- function(V){      # single vector as an input
+    VxV <- outer(V, V)                 # computes the outer product
+    VxV[lower.tri(VxV, diag = F)] <- 0 #  keep only upper diagonal matrix
+    Dp <- VxV/sum(VxV)             # normalizes it by the sum of elements
+    f_Dp <- sum(Dp[upper.tri(VxV, diag = F)]) # calculates the sum of the elements in the upper triangle of the resulting matrix
+      
+    # print(V)
+    # print(VxV)
+    # print(Dp)
+    # print(f_Dp)
+    
+    
+    round(f_Dp, 4) # single value as output
+  }
   
-  
-  
-  draw_heat_map_plot <- function(heat_map_df, plot_title) {
+  get_diversity <- function(heat_map_df) {
+    diversity_val <- heat_map_df %>%
+      dplyr::mutate(norm_value=value/sum(value)) %>% 
+      filter(Train_Study==Test_Study) %>% 
+      group_by(Metrics) %>%
+      summarise(fdp = round(1-sum(norm_value), 4)) %>%
+      pull()
     
     # View(heat_map_df)
+    # print(diversity_val)
+    
+    diversity_val
+  }
+  
+  draw_heat_map_plot <- function(heat_map_df, plot_title) {
+
+    # View(heat_map_df)
+    # print(get_coocur(heat_map_df$value))
+    # print(paste0(plot_title, ': ', get_coocur(heat_map_df$value)))
+    
     heatmap_plot <- ggplot(heat_map_df, aes(x=Test_Study, y=Train_Study)) +
     # heatmap_plot <- ggplot(heat_map_df, aes(x=Train_Study, y=Test_Study)) +  
       geom_tile(aes(fill=round(value, round_value))) +
@@ -214,7 +243,12 @@
       # #                      limits = c(.4, 1)) +
       
       
-      ggtitle(plot_title) +
+      # ggtitle(paste0(plot_title, ' - Coocur: ', get_coocur(heat_map_df$value))) +
+      # ggtitle(paste0(plot_title, ' - Var: ', round(var(heat_map_df$value), 4))) +
+      
+      ggtitle(paste0(plot_title, ' - ', get_diversity(heat_map_df))) +
+      
+      
       xlab("") +
       ylab("") +
       theme_bw() +
@@ -293,6 +327,8 @@
     } else {
       plot_range <- c(2:6)
     }
+    
+    # plot_range <- c(2:2)
     
     for (i in plot_range) {
       # print(i)
@@ -398,8 +434,10 @@
   #----------------------------#
   #------  Main Program  ------#
   #----------------------------#
-  # c('rf_classification.csv', 'rf_classification_deadline.csv', 'knn_classification.csv', 'linear_svc_classification.csv')
-  for (file in c('rf_classification.csv', 'rf_classification_deadline.csv')) {
+  # 'rf_classification.csv', 'rf_classification_deadline.csv'
+  # 'knn_classification.csv', 'linear_svc_classification.csv'
+  # 'dnn_30_10___2lbl.csv', 'dnn_30_5___2lbl.csv'
+  for (file in c('rf_classification.csv', 'dnn_30_10___2lbl.csv', 'dnn_30_5___2lbl.csv')) {
     tryCatch({
       file_name <<- file
       read_data()
@@ -416,6 +454,33 @@
   
   
   
+  get_coocur_test <- function(V){      # single vector as an input
+    VxV <- outer(V, V)                 # computes the outer product
+    VxV[lower.tri(VxV, diag = F)] <- 0 #  keep only upper diagonal matrix
+    Dp <- VxV/sum(VxV)             # normalizes it by the sum of elements
+    f_Dp <- sum(Dp[upper.tri(VxV, diag = F)]) # calculates the sum of the elements in the upper triangle of the resulting matrix
+    
+    # print(V)
+    # print(VxV)
+    # print(Dp)
+    # print(f_Dp)
+    
+    round(f_Dp, 4) # single value as output
+  }
+  
+
+  
+  # get_coocur_test(c(0.7, 0.8, 0.9, 0.5, 0.3, 0.6, 0.2, 0.1))
+  # get_coocur_test(c(7, 8, 9, 5, 3, 6, 2, 1))
+  # get_coocur_test(c(700, 800, 900, 500, 300, 600, 200, 100))
+  
+  # get_coocur_test(c(0, 0, 0, 0, 0, 2, 0, 0, 0))
+  # get_coocur_test(c(1, 1, 1, 1, 1, 2, 1, 1, 1))
+  # get_coocur_test(c(7, 7, 7, 7, 7, 2, 7, 7, 7))
+  # get_coocur_test(c(7, 8, 9, 5, 3, 6, 2, 1, 0))
   
   
-  
+  # get_coocur_test(c(0.7, 0.8, 0.9, 0.5, 0.3, 0.6, 0.2, 0.1, 0.7, 0.8, 0.9, 0.5, 0.3, 0.6, 0.2, 0.1))
+  # get_coocur_test(c(0.7, 0.7, 0.7, 0.7))
+  # get_coocur_test(c(0.9, 0.9, 0.9, 0.9))
+  # get_coocur_test(c(0.7, 0.7, 0.7, 0.7, 0.7))
