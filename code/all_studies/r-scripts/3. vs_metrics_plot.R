@@ -576,7 +576,7 @@ generate_2d_plots <- function() {
   
   
   # View(min_max_df)
-  convert_to_csv(min_max_df, file.path(file.path(all_studies_data_dir, 'roc_studies.csv')))
+  convert_to_csv(min_max_df, file.path(file.path(all_studies_data_dir, 'metrics', paste0(str_sub(file_name, 1, -5), '_roc_studies.csv'))))
 }
 
 
@@ -591,7 +591,7 @@ generate_2d_plots <- function() {
 ### 'knn_classification.csv', 'linear_svc_classification.csv'
 ### 'dnn_30_10___2lbl.csv', 'dnn_30_5___2lbl.csv'
 # --------------------------------------------------------------------
-for (file in c('rf_roc.csv')) {
+for (file in c('rf_classification.csv')) {
   tryCatch({
     file_name <<- file
     read_data()
