@@ -315,10 +315,10 @@ draw_heat_map_plot <- function(heat_map_df, plot_title) {
   # View(heat_map_df)
   # print(get_coocur(heat_map_df$value))
   # print(paste0(plot_title, ': ', get_coocur(heat_map_df$value)))
-  
+    
   heatmap_plot <- ggplot(heat_map_df, aes(x=Test_Study, y=Train_Study)) +
     geom_tile(aes(fill=round(value, round_value)))  +
-    scale_fill_gradientn(colours = c("white", "snow", "azure2", "azure4", "yellow", "chocolate3", "darkred"),
+    scale_fill_gradientn(colours = c("white", "snow", "azure2", "azure4", "khaki1", "yellow", "yellow1", "orange2", "orangered3"),
                          name = "",
                          limits = c(0, 1)) +
     
@@ -348,8 +348,8 @@ draw_heat_map_plot <- function(heat_map_df, plot_title) {
     
     # ggtitle(paste0(plot_title, ' - Coocur: ', get_coocur(heat_map_df$value))) +
     # ggtitle(paste0(plot_title, ' - Var: ', round(var(heat_map_df$value), 4))) +
-    
-    ggtitle(paste0(plot_title, ' - ', get_diversity(heat_map_df))) +
+    # ggtitle(paste0(plot_title, ' - Diversity ', get_diversity(heat_map_df))) +
+    ggtitle(plot_title) +
     
     
     xlab("") +
@@ -371,8 +371,10 @@ set_studies_signals <- function(i) {
   
   all_studies <<- F
   signals <<- c('PP', 'HR', 'BR', 'PP_BR', 'PP_HR', 'HR_BR', 'PP_HR_BR')
-  # signals <<- c('PP')
   
+  if (Test==T) {
+    signals <<- c('PP')
+  }
   
   plot_width <<- 16
   plot_height <<- 13
@@ -426,11 +428,15 @@ generate_2d_plot <- function(metric) {
   # 2:6 --> All other studies
   if (grepl("deadline", file_name, fixed=TRUE)) {
     plot_range <- c(1:1)
+    
   } else {
     plot_range <- c(2:6)
+    
+    if (Test==T) {
+      plot_range <- c(2:2)
+    }
   }
   
-  # plot_range <- c(2:2)
   
   for (i in plot_range) {
     # print(i)
@@ -518,53 +524,31 @@ generate_2d_plot <- function(metric) {
         dplyr::select(Train_Study, Test_Study)
     
       signal_roc_df <- left_join(min_max_study_df, signal_roc_df, by=c('Train_Study', 'Test_Study')) %>% 
-        filter(Metrics == 'AUC')
+        filter(Metrics == 'AUC') %>% 
+        mutate(Type=plot_name)
       
       min_max_df <<- rbind.fill(min_max_df, signal_roc_df)
-      
-      
-      # # %>% 
-      #   # dplyr::filter(Metrics %in% c("TPR", "FPR")) %>%
-      #   # unite("Train_Test_Study", Train_Study:Test_Study:Arousal_Signal)
-      # # View(signal_roc_df)
-      # 
-      # # for (train_test_study in unique(signal_roc_df$Train_Test_Study)) {
-      # #   # roc_plot_df <- signal_roc_df %>% 
-      # #   #   filter(Train_Test_Study == train_test_study)
-      # #   
-      # #   # roc_plot_df <- spread(roc_plot_df, Metrics, value)
-      # #   # View(roc_plot_df)
-      # #   
-      # #   # print(class(roc_plot_df$FPR))
-      # #   # roc_plot <- ggplot(data=roc_plot_df, aes(x=FPR[0], y=TPR[0], group=1)) +
-      # #   #   geom_line(color="red")+
-      # #   #   geom_point()
-      # #   # 
-      # #   # roc_plots[[length(roc_plots)+1]] <- roc_plot
-      # # }
-      # 
-      # # grid_roc_plot <- plot_grid(plotlist=roc_plots)
-      # # save_plot('roc_plot', grid_roc_plot)
     }
     
-    #----------------------------------------------------------------#
-    #----  MAKING GRID GRAPH WITH ALL THE PLOTS FROM EACH STUDY  ----#
-    #----------------------------------------------------------------#
-    grid_plot <- plot_grid(plotlist=heatmap_plot_list,
-                           # rel_heights = c(2.6, 2, 2, 2, 2),
-                           ncol=ceiling(sqrt(length(heatmap_plot_list))))
-    
-    
-    #---- SAVING GRID PLOT ----#
-    ### save_plot(paste0(get_model_name(), '_', tolower(metric), '_', plot_name), grid_plot, width=16, height=12)
-    ### save_plot(paste0(str_sub(file_name, 1, -5), '_', tolower(metric), '_', paste(train_studies, collapse = '_')), grid_plot, width=16, height=12)
-    ### save_plot(paste0(get_model_name(), '_', tolower(metric), '_2d_plot'), grid_plot, width=16, height=12)
-    
-    
-    # save_plot(paste0(str_sub(file_name, 1, -5), '_', tolower(metric), '_', plot_name), # '_N'
-    #           grid_plot, 
-    #           width=plot_width, 
-    #           height=plot_height)
+  
+    if (export_plot==T) {
+      #----------------------------------------------------------------#
+      #----  MAKING GRID GRAPH WITH ALL THE PLOTS FROM EACH STUDY  ----#
+      #----------------------------------------------------------------#
+      grid_plot <- plot_grid(plotlist=heatmap_plot_list,
+                             # rel_heights = c(2.6, 2, 2, 2, 2),
+                             ncol=ceiling(sqrt(length(heatmap_plot_list))))
+      
+      #---- SAVING GRID PLOT ----#
+      ### save_plot(paste0(get_model_name(), '_', tolower(metric), '_', plot_name), grid_plot, width=16, height=12)
+      ### save_plot(paste0(str_sub(file_name, 1, -5), '_', tolower(metric), '_', paste(train_studies, collapse = '_')), grid_plot, width=16, height=12)
+      ### save_plot(paste0(get_model_name(), '_', tolower(metric), '_2d_plot'), grid_plot, width=16, height=12)
+      
+      save_plot(paste0(str_sub(file_name, 1, -5), '_', tolower(metric), '_', plot_name), # '_N'
+                grid_plot,
+                width=plot_width,
+                height=plot_height)
+    }
   }
 }
 
@@ -576,7 +560,9 @@ generate_2d_plots <- function() {
   
   
   # View(min_max_df)
-  convert_to_csv(min_max_df, file.path(file.path(all_studies_data_dir, 'metrics', paste0(str_sub(file_name, 1, -5), '_roc_studies.csv'))))
+  if (file_name %in% c('rf_classification.csv', 'dnn_prediction.csv')) {
+    convert_to_csv(min_max_df, file.path(file.path(all_studies_data_dir, 'metrics', paste0(str_sub(file_name, 1, -5), '_roc_studies.csv'))))
+  }
 }
 
 
@@ -587,9 +573,15 @@ generate_2d_plots <- function() {
 #----------------------------#
 #------  Main Program  ------#
 #----------------------------#
+export_plot <<- T
+Test <<- F
+
+# --------------------------------------------------------------------
 ### 'rf_classification.csv', 'rf_classification_deadline.csv'
-### 'knn_classification.csv', 'linear_svc_classification.csv'
-### 'dnn_30_10___2lbl.csv', 'dnn_30_5___2lbl.csv'
+### 'rf_200_classification.csv', 'rf_200_classification_deadline.csv'
+### 'knn_classification.csv', 'dt_classification.csv', 'linear_svc_classification.csv'
+### 'dnn_30_10___2lbl.csv', 'dnn_30_5___2lbl.csv', 'dnn_30_10.csv'
+### 'dnn_prediction.csv'
 # --------------------------------------------------------------------
 for (file in c('rf_classification.csv')) {
   tryCatch({
