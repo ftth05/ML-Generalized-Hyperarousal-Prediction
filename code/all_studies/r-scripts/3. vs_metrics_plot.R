@@ -553,16 +553,19 @@ generate_2d_plot <- function(metric) {
 }
 
 generate_2d_plots <- function() {
-  # for (metric in c('AUC', 'F1')) {
+  # for (metric in c('AUC', 'F1', 'Accuracy')) {
   for (metric in c('AUC')) {
     generate_2d_plot(metric)
   }
   
   
   # View(min_max_df)
-  if (file_name %in% c('rf_classification.csv', 'dnn_prediction.csv')) {
-    convert_to_csv(min_max_df, file.path(file.path(all_studies_data_dir, 'metrics', paste0(str_sub(file_name, 1, -5), '_roc_studies.csv'))))
-  }
+  # if (file_name %in% c('rf_classification.csv', 'dnn_30_10.csv', 'lstm_30_10.csv')) {
+  #   convert_to_csv(min_max_df, file.path(file.path(all_studies_data_dir, 'metrics', paste0(str_sub(file_name, 1, -5), '_roc_studies.csv'))))
+  # }
+  
+  convert_to_csv(min_max_df, file.path(file.path(all_studies_data_dir, 'metrics', paste0(str_sub(file_name, 1, -5), '_roc_studies.csv'))))
+  
 }
 
 
@@ -580,10 +583,10 @@ Test <<- F
 ### 'rf_classification.csv', 'rf_classification_deadline.csv'
 ### 'rf_200_classification.csv', 'rf_200_classification_deadline.csv'
 ### 'knn_classification.csv', 'dt_classification.csv', 'linear_svc_classification.csv'
-### 'dnn_30_10___2lbl.csv', 'dnn_30_5___2lbl.csv', 'dnn_30_10.csv'
-### 'dnn_prediction.csv'
+### 'dnn_30_10.csv', 'lstm_30_10.csv'
+### 'dnn_30_5.csv', 'lstm_30_5.csv', 'dnn_15_10.csv', 'lstm_15_10.csv'
 # --------------------------------------------------------------------
-for (file in c('rf_classification.csv')) {
+for (file in c('rf_classification.csv', 'rf_classification_deadline.csv', 'dnn_30_10.csv', 'lstm_30_10.csv')) {
   tryCatch({
     file_name <<- file
     read_data()
