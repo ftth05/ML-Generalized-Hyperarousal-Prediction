@@ -307,7 +307,7 @@ get_diversity <- function(heat_map_df) {
   diversity_val
 }
 
-draw_heat_map_plot <- function(heat_map_df, plot_title) {
+draw_heat_map_plot <- function(heat_map_df, plot_title, metric) {
   
   heat_map_df <- heat_map_df %>%
     dplyr::mutate(norm_value=value/sum(value))
@@ -315,10 +315,23 @@ draw_heat_map_plot <- function(heat_map_df, plot_title) {
   # View(heat_map_df)
   # print(get_coocur(heat_map_df$value))
   # print(paste0(plot_title, ': ', get_coocur(heat_map_df$value)))
+  
+  # gradient_colors <- c("white", "snow", "azure2", "azure4", "khaki1", "yellow", "yellow1", "orangered3")s
+  # gradient_colors <- c("white", "snow", "azure2", "azure4", "khaki1", "yellow", "yellow1", "orange2", "orangered3")
+  # gradient_colors <- c("white", "snow", "azure2", "azure4", "cyan4", "greenyellow", "darkkhaki", "yellow", "orange", "orangered3")
+  
+  if (metric %in% c('AUC')) {
+    # gradient_colors <- c("white", "snow", "azure2", "azure4", "cyan4", "greenyellow", "darkkhaki", "yellow", "orange", "orangered3")
+    # gradient_colors <- c("white", "snow", "azure2", "azure4", "cyan4", "darkolivegreen4", "darkkhaki", "yellow", "orange", "orangered3")
+    gradient_colors <- c("white", "snow", "azure2", "azure4", "powderblue", "darkseagreen", "darkkhaki", "yellow", "orange", "orangered3")
     
+  } else if (metric %in% c('F1', 'Accuracy')) {
+    gradient_colors <- c("white", "snow", "azure2", "azure4", "khaki1", "yellow", "yellow1", "orange2", "orangered3")
+  }
+  
   heatmap_plot <- ggplot(heat_map_df, aes(x=Test_Study, y=Train_Study)) +
     geom_tile(aes(fill=round(value, round_value)))  +
-    scale_fill_gradientn(colours = c("white", "snow", "azure2", "azure4", "khaki1", "yellow", "yellow1", "orange2", "orangered3"),
+    scale_fill_gradientn(colours = gradient_colors,
                          name = "",
                          limits = c(0, 1)) +
     
@@ -372,8 +385,8 @@ set_studies_signals <- function(i) {
   all_studies <<- F
   signals <<- c('PP', 'HR', 'BR', 'PP_BR', 'PP_HR', 'HR_BR', 'PP_HR_BR')
   
-  if (Test==T) {
-    signals <<- c('PP')
+  if (sensor_modality_test==T) {
+    signals <<- c('PP', 'HR', 'BR')
   }
   
   plot_width <<- 16
@@ -432,7 +445,7 @@ generate_2d_plot <- function(metric) {
   } else {
     plot_range <- c(2:6)
     
-    if (Test==T) {
+    if (study_test==T) {
       plot_range <- c(2:2)
     }
   }
@@ -509,7 +522,7 @@ generate_2d_plot <- function(metric) {
         filter(Arousal_Signal == signal)
       # View(signal_df)
     
-      heatmap_plot <- draw_heat_map_plot(signal_df, signal)
+      heatmap_plot <- draw_heat_map_plot(signal_df, signal, metric)
       heatmap_plot_list[[length(heatmap_plot_list)+1]] <- heatmap_plot
        
       signal_roc_df <- train_study_roc_df %>% 
@@ -553,8 +566,8 @@ generate_2d_plot <- function(metric) {
 }
 
 generate_2d_plots <- function() {
-  # for (metric in c('AUC', 'F1', 'Accuracy')) {
-  for (metric in c('AUC')) {
+  for (metric in c('AUC', 'F1', 'Accuracy')) {
+  # for (metric in c('AUC')) {
     generate_2d_plot(metric)
   }
   
@@ -577,14 +590,12 @@ generate_2d_plots <- function() {
 #------  Main Program  ------#
 #----------------------------#
 export_plot <<- T
-Test <<- F
+sensor_modality_test <<- F
+study_test <<- F
 
 # --------------------------------------------------------------------
-### 'rf_classification.csv', 'rf_classification_deadline.csv'
-### 'rf_200_classification.csv', 'rf_200_classification_deadline.csv'
+### 'rf_classification.csv', 'rf_classification_deadline.csv', 'dnn_30_10.csv', 'lstm_30_10.csv'
 ### 'knn_classification.csv', 'dt_classification.csv', 'linear_svc_classification.csv'
-### 'dnn_30_10.csv', 'lstm_30_10.csv'
-### 'dnn_30_5.csv', 'lstm_30_5.csv', 'dnn_15_10.csv', 'lstm_15_10.csv'
 # --------------------------------------------------------------------
 for (file in c('rf_classification.csv', 'rf_classification_deadline.csv', 'dnn_30_10.csv', 'lstm_30_10.csv')) {
   tryCatch({
