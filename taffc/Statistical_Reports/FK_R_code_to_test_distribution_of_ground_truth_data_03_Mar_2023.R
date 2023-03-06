@@ -10,38 +10,38 @@
 library(dplyr)
 library(tidyr)
 
-tmpD<-read.csv("time_ind_prediction_df.csv",header=T,sep=",")
+tmpD<-read.csv("ground_truth_data.csv",header=T,sep=",")
 dim(tmpD)
 
-levels1=c("SIM1","SIM2","TT1","OFFICE_TASKS","DEADLINE_STUDY",
-         "SIM1___SIM2","SIM1___SIM2___TT1","SIM1___SIM2___OFFICE_TASKS","SIM1___SIM2___TT1___OFFICE_TASKS")
 
-levels=c("sim1","sim2","tt1","OT","DS","SS","SST","SSO","SSTO")
-
-for (i in 1:9) {
-  tmpD$Study[tmpD$Study == levels1[i]] = levels[i]
-}
 
 Study<-factor(tmpD$Study,levels=c("sim1","sim2","tt1","OT","DS","SS","SST","SSO","SSTO"))
 
 table(Study)
 
 
-
-
-unique(tmpD$Study)
-factor(tmpD$Study)
-table(Study)
-PPall<-tmpD$PP_Mean	
-HRall<-tmpD$HR_Mean
-BRall<-tmpD$BR_Mean
+# unique(tmpD$Study)
+# factor(tmpD$Study)
+# table(Study)
+# PPall<-tmpD$PP_Mean	
+# HRall<-tmpD$HR_Mean
+# BRall<-tmpD$BR_Mean
+# 
+# levels1=c("SIM1","SIM2","TT1","OFFICE_TASKS","DEADLINE_STUDY",
+#           "SIM1___SIM2","SIM1___SIM2___TT1","SIM1___SIM2___OFFICE_TASKS","SIM1___SIM2___TT1___OFFICE_TASKS")
+# 
+# levels=c("sim1","sim2","tt1","OT","DS","SS","SST","SSO","SSTO")
+# 
+# for (i in 1:9) {
+#   tmpD$Study[tmpD$Study == levels1[i]] = levels[i]
+# }
 
 
 #tmpD$PP_Normalized = log(tmpD$PP_Mean) - mean(log(tmpD$PP_Ground_Truth))
 
-# PPall<-tmpD$PP_Normalized	
-# HRall<-tmpD$HR_Normalized
-# BRall<-tmpD$BR_Normalized
+PPall<-tmpD$PP_Normalized	
+HRall<-tmpD$HR_Normalized
+BRall<-tmpD$BR_Normalized
 
 
 D<-cbind(PPall,HRall,BRall)
@@ -52,9 +52,9 @@ rm(tmpD)
 StudyLabels<-c("sim1","sim2","tt1","OT")#,"DS","SS","SST","SSO","SSTO")
 
 
-pdf(file = "FK_PP_HR_BR_ground_truthing_conformance_to_normality_in_9_studies_03_Mar_2023.pdf",
+pdf(file = "FK_PP_HR_BR_ground_truthing_conformance_to_normality_in_4_V2.pdf",
     width = 12, # The width of the plot in inches
-    height = 6) # The height of the plot in inches
+    height = 12) # The height of the plot in inches
 
 quartz()
 par(mfrow=c(4,6),mar=c(2.5,2.5,3.5,2),mgp=c(1.2,0.5,0),oma=c(0.5,0.5,0.5,0.5))
@@ -67,8 +67,8 @@ for (k in StudyLabels){
   tmpBR<-BRall[StudyInd]
   ### Here we will plot the PP
 
-  hist(tmpPP,freq=F,xlab="",ylab="",main="")
-  lines(density(tmpPP),col="red",lty=1,lwd=1)
+  hist(tmpPP,freq=F,xlab="",ylab="",main="" ,col ="green")
+  lines(density(tmpPP),col="black",lty=1,lwd=1)
   qqnorm(tmpPP,main="", prob=TRUE, cex.lab=0.75, cex.axis=0.75, cex.main=1.5, cex.sub=1)
   qqline(tmpPP,col="red",lty=1,lwd=1)
   #abline(v=c(-0.5,0.5),lty=3)
@@ -77,8 +77,8 @@ for (k in StudyLabels){
 
   ### Here we will plot the HR
   #par(mfrow=c(1,2),mar=c(2.5,2.5,3.5,2),mgp=c(1.2,0.5,0),oma=c(0.5,0.5,0.5,0.5))
-  hist(tmpHR,freq=F,xlab="",ylab="",main="")
-  lines(density(tmpHR),col="red",lty=1,lwd=1)
+  hist(tmpHR,freq=F,xlab="",ylab="",main="",col ="green")
+  lines(density(tmpHR),col="black",lty=1,lwd=1)
   qqnorm(tmpHR,main="", prob=TRUE, cex.lab=0.75, cex.axis=0.75, cex.main=1.5, cex.sub=1)
   qqline(tmpHR,col="red",lty=1,lwd=1)
   #abline(v=c(-0.5,0.5),lty=3)
@@ -87,8 +87,8 @@ for (k in StudyLabels){
 
   ### Here we will plot the BR
   #par(mfrow=c(1,2),mar=c(2.5,2.5,3.5,2),mgp=c(1.2,0.5,0),oma=c(0.5,0.5,0.5,0.5))
-  hist(tmpBR,freq=F,xlab="",ylab="",main="")
-  lines(density(tmpBR),col="red",lty=1,lwd=1)
+  hist(tmpBR,freq=F,xlab="",ylab="",main="",col ="green")
+  lines(density(tmpBR),col="black",lty=1,lwd=1)
   qqnorm(tmpBR,main="", prob=TRUE, cex.lab=0.75, cex.axis=0.75, cex.main=1.5, cex.sub=1)
   qqline(tmpBR,col="red",lty=1,lwd=1)
   #abline(v=c(-0.5,0.5),lty=3)
@@ -106,6 +106,13 @@ mtext(paste("R" ),outer=TRUE, cex.main=2,col.main="blue", line=-1, side =2, at =
 mtext(paste("O" ),outer=TRUE, cex.main=2,col.main="blue", line=-1, side =2, at = 0.13)
 
 dev.off() ### end the pdf creation file
+
+
+
+
+fix xlims for DeltaPP, DeltaHR, DeltaBR.
+
+
 
 
 # 
