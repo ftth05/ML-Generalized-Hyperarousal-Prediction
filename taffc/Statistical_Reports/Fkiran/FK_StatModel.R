@@ -54,6 +54,12 @@ SClabel<-"Four studies:"
 tmpD<-read.csv("Data_for_R_four_studies_OT_SIM1_SIM2_TT1_Single_112_cases_Feb_2023.csv",header=T,sep=",")
 dim(tmpD)
 
+## _ is not shown in the x axis, we replaced _ with -
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="HR_BR" ]<- "HR-BR"
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_BR"] <- "PP-BR"
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_HR"] <- "PP-HR"
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_HR_BR"] <- "PP-HR-BR"
+
 ### Here is the response variable:
 AUC0<-tmpD$value
 summary(AUC0)
@@ -66,8 +72,10 @@ Method0
 #levels(Method0) = toupper(Method0)
 table(Method0)
 ### Arousal Signal
+# Signal0<-factor(tmpD$Arousal_Signal,
+#                 levels=c("BR","HR","PP","HR_BR","PP_BR","PP_HR","PP_HR_BR"))
 Signal0<-factor(tmpD$Arousal_Signal,
-               levels=c("BR","HR","PP","HR_BR","PP_BR","PP_HR","PP_HR_BR"))
+                levels=c("BR","HR","PP","HR-BR","PP-BR","PP-HR","PP-HR-BR"))
 Signal0
 table(Signal0)
 
@@ -122,8 +130,8 @@ s1p1<-plot_model(fm00,"pred",title = "Method")$Method + ylab("")+
           axis.text.x=element_blank(),
           axis.ticks.x=element_blank(),
           plot.background = element_blank(),
-          #panel.grid.minor = element_blank(),
-          #panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.grid.major = element_blank(),
           axis.text = element_text(size = 10)
         )
         
@@ -134,19 +142,19 @@ s1p2<-plot_model(fm00,"pred",title = "Signal")$Signal+ ylab("")+
           axis.text.x=element_blank(),
           axis.ticks.x=element_blank(),
           plot.background = element_blank(),
-          #panel.grid.minor = element_blank(),
-          #panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.grid.major = element_blank(),
           axis.text = element_text(size = 10)
   )
   
-s1p3<-plot_model(fm00,"int",title = "Method x Time")+ ylab("")+
+s1p3<-plot_model(fm00,"int",title = "Method × Signal")+ ylab("")+
   theme(  plot.title = element_text(hjust = 0.5, size = 20, face = "bold"), # center the plot title
           axis.title.x=element_blank(),
           axis.text.x=element_blank(),
           axis.ticks.x=element_blank(),
           plot.background = element_blank(),
-          #panel.grid.minor = element_blank(),
-          #panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.grid.major = element_blank(),
           axis.text = element_text(size = 10),
           legend.title= element_blank()
   )
@@ -165,6 +173,12 @@ SClabel<-"Three studies:"
 tmpD<-read.csv("Data_for_R_three_studies_SS_TT1_OT_63_cases_Feb_2023.csv",header=T,sep=",")
 dim(tmpD)
 
+## _ is not shown in the x axis, we replaced _ with -
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="HR_BR" ]<- "HR-BR"
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_BR"] <- "PP-BR"
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_HR"] <- "PP-HR"
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_HR_BR"] <- "PP-HR-BR"
+
 ### Here is the response variable:
 AUC0<-tmpD$value
 summary(AUC0)
@@ -177,8 +191,10 @@ Method0
 #levels(Method0) = toupper(Method0)
 table(Method0)
 ### Arousal Signal
+# Signal0<-factor(tmpD$Arousal_Signal,
+#                 levels=c("BR","HR","PP","HR_BR","PP_BR","PP_HR","PP_HR_BR"))
 Signal0<-factor(tmpD$Arousal_Signal,
-                levels=c("BR","HR","PP","HR_BR","PP_BR","PP_HR","PP_HR_BR"))
+                levels=c("BR","HR","PP","HR-BR","PP-BR","PP-HR","PP-HR-BR"))
 Signal0
 table(Signal0)
 
@@ -233,8 +249,8 @@ s2p1<-plot_model(fm00,"pred",title = "")$Method+  ylab("")+
           axis.text.x=element_blank(),
           axis.ticks.x=element_blank(),
           plot.background = element_blank(),
-          #panel.grid.minor = element_blank(),
-          #panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.grid.major = element_blank(),
           axis.text = element_text(size = 10)
   )
 
@@ -244,8 +260,8 @@ s2p2<-plot_model(fm00,"pred",title = "")$Signal+  ylab("")+
           axis.text.x=element_blank(),
           axis.ticks.x=element_blank(),
           plot.background = element_blank(),
-          #panel.grid.minor = element_blank(),
-          #panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.grid.major = element_blank(),
           axis.text = element_text(size = 10)
   )
 
@@ -255,8 +271,8 @@ s2p3<-plot_model(fm00,"int",title = "")+  ylab("")+
           axis.text.x=element_blank(),
           axis.ticks.x=element_blank(),
           plot.background = element_blank(),
-          #panel.grid.minor = element_blank(),
-          #panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.grid.major = element_blank(),
           axis.text = element_text(size = 10),
           legend.title= element_blank()
   )
@@ -291,6 +307,12 @@ SClabel<-"Two studies (realism):"
 tmpD<-read.csv("Data_for_R_two_studies_SST_OT_realism_28_cases_Feb_2023.csv",header=T,sep=",")
 dim(tmpD)
 
+## _ is not shown in the x axis, we replaced _ with -
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="HR_BR" ]<- "HR-BR"
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_BR"] <- "PP-BR"
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_HR"] <- "PP-HR"
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_HR_BR"] <- "PP-HR-BR"
+
 ### Here is the response variable:
 AUC0<-tmpD$value
 summary(AUC0)
@@ -303,8 +325,10 @@ Method0
 #levels(Method0) = toupper(Method0)
 table(Method0)
 ### Arousal Signal
+# Signal0<-factor(tmpD$Arousal_Signal,
+#                 levels=c("BR","HR","PP","HR_BR","PP_BR","PP_HR","PP_HR_BR"))
 Signal0<-factor(tmpD$Arousal_Signal,
-                levels=c("BR","HR","PP","HR_BR","PP_BR","PP_HR","PP_HR_BR"))
+                levels=c("BR","HR","PP","HR-BR","PP-BR","PP-HR","PP-HR-BR"))
 Signal0
 table(Signal0)
 
@@ -375,8 +399,8 @@ s3p1<-plot_model(fm00,"pred",title = "")$Method+ ylab("")+
           axis.text.x=element_blank(),
           axis.ticks.x=element_blank(),
           plot.background = element_blank(),
-          #panel.grid.minor = element_blank(),
-          #panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.grid.major = element_blank(),
           axis.text = element_text(size = 10)
   )
 #quartz()
@@ -386,8 +410,8 @@ s3p2<-plot_model(fm00,"pred",title = "")$Signal+ ylab("")+
           axis.text.x=element_blank(),
           axis.ticks.x=element_blank(),
           plot.background = element_blank(),
-          #panel.grid.minor = element_blank(),
-          #panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.grid.major = element_blank(),
           axis.text = element_text(size = 10)
   )
 
@@ -397,8 +421,8 @@ s3p3<-plot_model(fm00,"int",title = "")+ ylab("")+
           axis.text.x=element_blank(),
           axis.ticks.x=element_blank(),
           plot.background = element_blank(),
-          #panel.grid.minor = element_blank(),
-          #panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.grid.major = element_blank(),
           axis.text = element_text(size = 10),
           legend.title= element_blank()
   )
@@ -415,7 +439,13 @@ SClabel<-"Two studies (axis):"
 tmpD<-read.csv("Data_for_R_two_studies_SSO_TT1_axis_28_cases_Feb_2023.csv",header=T,sep=",")
 tmpD$Model <- toupper(tmpD$Model)
 dim(tmpD)
+str(tmpD)
 
+## _ is not shown in the x axis, we replaced _ with -
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="HR_BR" ]<- "HR-BR"
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_BR"] <- "PP-BR"
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_HR"] <- "PP-HR"
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_HR_BR"] <- "PP-HR-BR"
 ### Here is the response variable:
 AUC0<-tmpD$value
 summary(AUC0)
@@ -429,7 +459,7 @@ Method0
 table(Method0)
 ### Arousal Signal
 Signal0<-factor(tmpD$Arousal_Signal,
-                levels=c("BR","HR","PP","HR_BR","PP_BR","PP_HR","PP_HR_BR"))
+                levels=c("BR","HR","PP","HR-BR","PP-BR","PP-HR","PP-HR-BR"))
 Signal0
 table(Signal0)
 
@@ -501,8 +531,8 @@ s4p1<-plot_model(fm00,"pred",title = "")$Method+ ylab("")+
           #axis.text.x=element_blank(),
           #axis.ticks.x=element_blank(),
           plot.background = element_blank(),
-          #panel.grid.minor = element_blank(),
-          #panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.grid.major = element_blank(),
           axis.text = element_text(size = 10)
   )
 #quartz()
@@ -512,10 +542,12 @@ s4p2<-plot_model(fm00,"pred",title = "")$Signal+ ylab("")+
          # axis.text.x=element_blank(),
           #axis.ticks.x=element_blank(),
           plot.background = element_blank(),
-         #panel.grid.minor = element_blank(),
-         #panel.grid.major = element_blank(),
+         panel.grid.minor = element_blank(),
+         panel.grid.major = element_blank(),
           axis.text = element_text(size = 10)
-  )
+  ) #+ scale_x_discrete(labels = c (#"BR"="BR", "HR"="HR","PP"="PP",
+                                   #"HR_BR" = "HR_BR", "PP_BR"="PP_BR" , 
+                                   #"PP_HR"="PP_HR", "PP_HR_BR"="PPHRBR" ) )
 
 s4p3<-plot_model(fm00,"int",title = "")+ ylab("")+
 theme(  plot.title = element_text(hjust = 0.5, size = 20, face = "bold"), # center the plot title
@@ -523,8 +555,8 @@ theme(  plot.title = element_text(hjust = 0.5, size = 20, face = "bold"), # cent
         #axis.text.x=element_blank(),
         #axis.ticks.x=element_blank(),
         plot.background = element_blank(),
-        #panel.grid.minor = element_blank(),
-        #panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank(),
         axis.text = element_text(size = 10),
         legend.title= element_blank())#+ scale_x_discrete(labels = c("RF", "LSTM"))
 
@@ -567,7 +599,7 @@ all<-ggarrange( SS.ann,MS.ann, RI.ann, DI.ann + rremove("x.text"),
                 # heights = c(1, 0.05, 1 ,0.05,0.05,0.05,1 ,0.05,1)
 ) #+    theme(plot.margin = margin(5,0.5,5,0.5, "cm"))
 
-ggsave(paste0("FK_StatModel_V3.pdf"),
+ggsave(paste0("FK_StatModel_V5.pdf"),
        all,
        device=cairo_pdf,
        width=16,
