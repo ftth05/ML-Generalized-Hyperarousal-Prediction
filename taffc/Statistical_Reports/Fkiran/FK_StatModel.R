@@ -55,10 +55,10 @@ tmpD<-read.csv("Data_for_R_four_studies_OT_SIM1_SIM2_TT1_Single_112_cases_Feb_20
 dim(tmpD)
 
 ## _ is not shown in the x axis, we replaced _ with -
-tmpD$Arousal_Signal[tmpD$Arousal_Signal =="HR_BR" ]<- "HR-BR"
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="HR_BR" ]<- "HR+BR"
 tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_BR"] <- "PP-BR"
-tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_HR"] <- "PP-HR"
-tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_HR_BR"] <- "PP-HR-BR"
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_HR"] <- "PP+HR"
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_HR_BR"] <- "PP+HR+BR"
 
 ### Here is the response variable:
 AUC0<-tmpD$value
@@ -75,7 +75,7 @@ table(Method0)
 # Signal0<-factor(tmpD$Arousal_Signal,
 #                 levels=c("BR","HR","PP","HR_BR","PP_BR","PP_HR","PP_HR_BR"))
 Signal0<-factor(tmpD$Arousal_Signal,
-                levels=c("BR","HR","PP","HR-BR","PP-BR","PP-HR","PP-HR-BR"))
+                levels=c("BR","HR","PP","HR+BR","PP-BR","PP+HR","PP+HR+BR"))
 Signal0
 table(Signal0)
 
@@ -174,10 +174,10 @@ tmpD<-read.csv("Data_for_R_three_studies_SS_TT1_OT_63_cases_Feb_2023.csv",header
 dim(tmpD)
 
 ## _ is not shown in the x axis, we replaced _ with -
-tmpD$Arousal_Signal[tmpD$Arousal_Signal =="HR_BR" ]<- "HR-BR"
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="HR_BR" ]<- "HR+BR"
 tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_BR"] <- "PP-BR"
-tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_HR"] <- "PP-HR"
-tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_HR_BR"] <- "PP-HR-BR"
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_HR"] <- "PP+HR"
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_HR_BR"] <- "PP+HR+BR"
 
 ### Here is the response variable:
 AUC0<-tmpD$value
@@ -194,7 +194,7 @@ table(Method0)
 # Signal0<-factor(tmpD$Arousal_Signal,
 #                 levels=c("BR","HR","PP","HR_BR","PP_BR","PP_HR","PP_HR_BR"))
 Signal0<-factor(tmpD$Arousal_Signal,
-                levels=c("BR","HR","PP","HR-BR","PP-BR","PP-HR","PP-HR-BR"))
+                levels=c("BR","HR","PP","HR+BR","PP-BR","PP+HR","PP+HR+BR"))
 Signal0
 table(Signal0)
 
@@ -308,10 +308,10 @@ tmpD<-read.csv("Data_for_R_two_studies_SST_OT_realism_28_cases_Feb_2023.csv",hea
 dim(tmpD)
 
 ## _ is not shown in the x axis, we replaced _ with -
-tmpD$Arousal_Signal[tmpD$Arousal_Signal =="HR_BR" ]<- "HR-BR"
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="HR_BR" ]<- "HR+BR"
 tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_BR"] <- "PP-BR"
-tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_HR"] <- "PP-HR"
-tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_HR_BR"] <- "PP-HR-BR"
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_HR"] <- "PP+HR"
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_HR_BR"] <- "PP+HR+BR"
 
 ### Here is the response variable:
 AUC0<-tmpD$value
@@ -328,7 +328,7 @@ table(Method0)
 # Signal0<-factor(tmpD$Arousal_Signal,
 #                 levels=c("BR","HR","PP","HR_BR","PP_BR","PP_HR","PP_HR_BR"))
 Signal0<-factor(tmpD$Arousal_Signal,
-                levels=c("BR","HR","PP","HR-BR","PP-BR","PP-HR","PP-HR-BR"))
+                levels=c("BR","HR","PP","HR+BR","PP+BR","PP+HR","PP+HR+BR"))
 Signal0
 table(Signal0)
 
@@ -442,10 +442,10 @@ dim(tmpD)
 str(tmpD)
 
 ## _ is not shown in the x axis, we replaced _ with -
-tmpD$Arousal_Signal[tmpD$Arousal_Signal =="HR_BR" ]<- "HR-BR"
-tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_BR"] <- "PP-BR"
-tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_HR"] <- "PP-HR"
-tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_HR_BR"] <- "PP-HR-BR"
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="HR_BR" ]<- "HR+BR"
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_BR"] <- "PP+BR"
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_HR"] <- "PP+HR"
+tmpD$Arousal_Signal[tmpD$Arousal_Signal =="PP_HR_BR"] <- "PP+HR+BR"
 ### Here is the response variable:
 AUC0<-tmpD$value
 summary(AUC0)
@@ -459,7 +459,7 @@ Method0
 table(Method0)
 ### Arousal Signal
 Signal0<-factor(tmpD$Arousal_Signal,
-                levels=c("BR","HR","PP","HR-BR","PP-BR","PP-HR","PP-HR-BR"))
+                levels=c("BR","HR","PP","HR+BR","PP+BR","PP+HR","PP+HR+BR"))
 Signal0
 table(Signal0)
 
@@ -599,7 +599,7 @@ all<-ggarrange( SS.ann,MS.ann, RI.ann, DI.ann + rremove("x.text"),
                 # heights = c(1, 0.05, 1 ,0.05,0.05,0.05,1 ,0.05,1)
 ) #+    theme(plot.margin = margin(5,0.5,5,0.5, "cm"))
 
-ggsave(paste0("FK_StatModel_V5.pdf"),
+ggsave(paste0("FK_StatModel_Final.pdf"),
        all,
        device=cairo_pdf,
        width=16,
